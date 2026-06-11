@@ -6,6 +6,11 @@ class URLS:
     BASE_URL = "https://qa-scooter.education-services.ru"
 
 class Courier:
-    COURIER_REG = "/api/v1/courier"
-    COURIER_LOGIN = "/api/v1/courier/login"
-    COURIER_DELETE = "/api/v1/courier/"
+    COURIER_REG = "/api/v1/courier"             #POST Создание курьера
+    COURIER_LOGIN = "/api/v1/courier/login"     #POST Логин курьера в системе
+    COURIER_DELETE = "/api/v1/courier/"         #DELETE Удаление курьера
+    COURIER_DATA = {"login": "lharysen", "password": "1234", "firstName": "Евгений"}
+
+class Orders:
+    ORDER_CREATE = "/api/v1/orders"
+    ORDERS_GET = "/api/v1/orders"

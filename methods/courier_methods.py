@@ -6,21 +6,24 @@ import json
 
 
 class CourierMethods:
-    def __init__(self):
+    def __init__(self, url):
         self.headers = {'Authorization': AuthorizationData.tocken}
+        self.url = url
 
     @allure.step("Создание курьера")
     def create_courier(self, params=None):
         if params is None:
-            params = generate_courier_data()
-        response = requests.post(
-            f"{URLS.BASE_URL}{Courier.COURIER_REG}",
-            data=params,
-            headers=self.headers
-        )
+            with allure.step('Создать валидные данные для курьера'):
+                params = generate_courier_data()
+                print(params)
+        with allure.step('Отправить POST-запрос на создание курьера'):
+            response = requests.post(
+                f"{self.url}",
+                data=params
+            )
         try:
             print(f"\n{response.json()}")
-            return response.json(), response.status_code
+            return response.json(), response.status_code, params
         except json.decoder.JSONDecodeError:
             print(f"\n{response.text}")
             return response.text, response.status_code
