@@ -27,26 +27,14 @@ class CourierMethods:
         except json.decoder.JSONDecodeError:
             print(f"\n{response.text}")
             return response.text, response.status_code
-        
+
     @allure.step("Авторизация курьера")
-    def get_courier(self, login, password):
+    def get_courier(self, params=None):
         response = requests.post(
             f"{URLS.BASE_URL}{Courier.COURIER_LOGIN}",
-            json = {"login": login, "password": password},
-            headers=self.headers
-        )
-        try:
-            print(f"\n{response.json()}")
-            return response.json(), response.status_code
-        except json.decoder.JSONDecodeError:
-            print(f"\n{response.text}")
-            return response.text, response.status_code
-        
-    @allure.step("Удаление курьера")
-    def delete_courier(self, courier_id):
-        response = requests.delete(
-            f"{URLS.BASE_URL}{Courier.COURIER_DELETE}"+f"{courier_id}"
-            # headers=self.headers
+            json=params,
+            headers=self.headers,
+            timeout=15
         )
         try:
             print(f"\n{response.json()}")
@@ -55,3 +43,15 @@ class CourierMethods:
             print(f"\n{response.text}")
             return response.text, response.status_code
 
+    @allure.step("Удаление курьера")
+    def delete_courier(self, courier_id):
+        response = requests.delete(
+            f"{URLS.BASE_URL}{Courier.COURIER_DELETE}" + f"{courier_id}"
+            # headers=self.headers
+        )
+        try:
+            print(f"\nDEL = {response.json()}")
+            return response.json(), response.status_code
+        except json.decoder.JSONDecodeError:
+            print(f"\n{response.text}")
+            return response.text, response.status_code

@@ -1,5 +1,5 @@
-# FILE_1 = $(shell find ./tests -name "*.py" -type f)
-FILE_1 = $(shell find ./methods -name "*.py" -type f)
+FILE_1 = $(shell find ./tests -name "*.py" -type f)
+# FILE_1 = $(shell find ./methods -name "*.py" -type f)
 # FILE_1 = $(shell find ./locators -name "*.py" -type f)
 # FILE_1 = $(shell find ./pages -name "*.py" -type f)
 # FILE_1 = data.py

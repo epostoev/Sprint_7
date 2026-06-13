@@ -4,7 +4,6 @@ import requests
 import json
 
 
-
 class OrderMethods:
     def __init__(self):
         self.headers = {'Authorization': AuthorizationData.tocken}
@@ -13,8 +12,8 @@ class OrderMethods:
     @allure.step("Создание заказа")
     def create_order(self, params=None):
         response = requests.post(f"{self.url}" + f"{Orders.ORDER_CREATE}",
-            json=params
-            )
+                                 json=params
+                                 )
         try:
             print(f"\n{response.json()}")
             return response.json(), response.status_code
@@ -24,9 +23,9 @@ class OrderMethods:
 
     @allure.step("Получение списка заказов")
     def get_orders(self, params=None):
-        response = requests.get(f"{self.url}"+f"{Orders.ORDERS_GET}",
-            json=params
-            )
+        response = requests.get(f"{self.url}" + f"{Orders.ORDERS_GET}",
+                                json=params
+                                )
         try:
             print(f"\n{response.text}")
             return response.json(), response.status_code
