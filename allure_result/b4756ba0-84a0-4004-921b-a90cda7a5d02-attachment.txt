@@ -1,0 +1,9 @@
+{'login': 'jqydykofcv', 'password': 'vjltfevoqp', 'firstName': 'aelrlrsalb'}
+
+{'ok': True}
+
+{'id': 3857}
+
+{'id': 3857}
+
+DEL = {'ok': True}

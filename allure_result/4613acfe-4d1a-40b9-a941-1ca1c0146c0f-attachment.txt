@@ -1,0 +1,6 @@
+
+PARAMSSSS = {'login': 'lharysen', 'password': '1234', 'firstName': 'Евгений'}
+PARAMS = {'login': 'lharysen', 'password': '1234', 'firstName': 'Евгений'}
+PARAMS = {'password': '1234', 'firstName': 'Евгений'}
+
+{'code': 400, 'message': 'Недостаточно данных для входа'}

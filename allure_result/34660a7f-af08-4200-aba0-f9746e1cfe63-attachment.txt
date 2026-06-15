@@ -1,0 +1,12 @@
+
+{'ok': True}
+
+PARAMS = {'login': 'lharysen', 'password': '1234', 'firstName': 'Евгений'}
+STATUS_CODE = 201
+COURIER_DATA = {'ok': True}
+
+{'code': 409, 'message': 'Этот логин уже используется. Попробуйте другой.'}
+
+{'id': 3859}
+
+DEL = {'ok': True}
