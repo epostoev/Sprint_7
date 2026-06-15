@@ -16,31 +16,23 @@ class TestCreareCourier:
 
     @allure.title('Нельзя создать двух одинаковых курьеров')
     def test_create_courier_with_existing_login_conflict(
-            self, courier_methods, delete_courier):
+            self, courier_methods, existing_courier):
         courier_data, status_code, params = courier_methods.create_courier(
-            Courier.COURIER_DATA)
-        print(f"\nPARAMS = {params}")
-        print(f"STATUS_CODE = {status_code}")
-        print(f"COURIER_DATA = {courier_data}")
+            existing_courier)
         with allure.step("Повторно отпавить запрос на создание курьера с тем же логином"):
             courier_data, status_code, params = courier_methods.create_courier(
-                Courier.COURIER_DATA)
+                existing_courier)
         with allure.step('Проверить, что статус-код 409 и правильное сообщение об ошибке'):
             assert (status_code == 409 and "Этот логин уже используется. Попробуйте другой." ==
                     courier_data.get("message"))
-        delete_courier.append((params['login'], params['password']))
 
     @pytest.mark.parametrize('field', ["login", "password"])
-    @allure.title('Нельзя создать курьера без обязательных полей LOGIN или PASSWORD')
+    @allure.title('Нельзя создать курьера без поля {field}')
     def test_create_courier_without_required_field_error(
             self, courier_methods, field, delete_courier):
         with allure.step('Создать валидные данные для курьера и удалить обязательное поле'):
             courier_data = Courier.COURIER_DATA.copy()  # Создание копии словаря
-            print(f"\nPARAMSSSS = {courier_data}")
-            # courier_data, status_code, params = courier_methods.create_courier(courier_data)
-            print(f"PARAMS = {courier_data}")
             del courier_data[field]
-            print(f"PARAMS = {courier_data}")
         with allure.step('Отправить POST-запрос на создание курьера'):
             courier_data, status_code, params = courier_methods.create_courier(
                 courier_data)

@@ -21,3 +21,9 @@ def delete_courier(courier_methods):
 @pytest.fixture
 def order_methods():
     return OrderMethods()
+
+@pytest.fixture
+def existing_courier(courier_methods, delete_courier):
+    courier_data, status_code, params = courier_methods.create_courier()
+    delete_courier.append((params['login'], params['password']))
+    return params

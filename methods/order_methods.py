@@ -15,10 +15,8 @@ class OrderMethods:
                                  json=params
                                  )
         try:
-            print(f"\n{response.json()}")
             return response.json(), response.status_code
         except json.decoder.JSONDecodeError:
-            print(f"\n{response.text}")
             return response.text, response.status_code
 
     @allure.step("Получение списка заказов")
@@ -27,8 +25,6 @@ class OrderMethods:
                                 json=params
                                 )
         try:
-            print(f"\n{response.text}")
             return response.json(), response.status_code
         except json.decoder.JSONDecodeError:
-            print(f"\n{response.text}")
             return response.text, response.status_code

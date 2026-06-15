@@ -7,46 +7,35 @@ import pytest
 class TestLoginCourier:
 
     @allure.title("Курьер может авторизоваться")
-    def test_login_courier_success(self, courier_methods, delete_courier):
-        with allure.step("Создать курьера"):
-            courier_data, status_code, params = courier_methods.create_courier()
-            delete_courier.append((params['login'], params['password']))
+    def test_login_courier_success(self, courier_methods, existing_courier):
         with allure.step('Авторизоваться'):
-            courier_data, status_code = courier_methods.get_courier(params)
+            courier_data, status_code = courier_methods.get_courier(existing_courier)
         with allure.step("Проверить статус-код 200"):
             assert status_code == 200
 
     @allure.title("Успешый логин возвращае id")
     def test_login_courier_return_id_success(
-            self, courier_methods, delete_courier):
-        with allure.step("Создать курьера"):
-            courier_data, status_code, params = courier_methods.create_courier()
-            delete_courier.append((params['login'], params['password']))
+            self, courier_methods, existing_courier):
         with allure.step('Авторизоваться'):
-            courier_data, status_code = courier_methods.get_courier(params)
+            courier_data, status_code = courier_methods.get_courier(existing_courier)
         with allure.step("Проверить наличе id в ответе"):
             assert courier_data.get("id") is not None
 
-    @pytest.mark.parametrize("field, wrong_value", [
-        ("login", "wrong_login"),
-        ("password", "wrong_password")
-    ])
-    @allure.title('Неверный логин или пароль возвращает ошибку 404')
-    def test_login_courier_with_wrong_value(
-            self,
-            courier_methods,
-            delete_courier,
-            field,
-            wrong_value):
-        with allure.step("Создать курьера"):
-            courier_data, status_code, params = courier_methods.create_courier()
-            delete_courier.append((params['login'], params['password']))
-        with allure.step('Подменить одно из полей неверным значением'):
-            login = wrong_value if field == "login" else params["login"]
-            password = wrong_value if field == "password" else params["password"]
-        with allure.step('Авторизоваться с неверными данными авторизации'):
+    @allure.title('Авторизация с неверным логином возвращает ошибку 404')
+    def test_login_courier_with_wrong_login(self, courier_methods, existing_courier):
+        with allure.step('Авторизоваться с неверным логином'):
             courier_data, status_code = courier_methods.get_courier(
-                login, password)
+                {"login": "wrong_login", "password": existing_courier["password"]})
+        with allure.step("Проверить статус-код 404 и сообщение об ошибке"):
+            assert (status_code == 404 and courier_data.get(
+                "message") == "Учетная запись не найдена")
+
+
+    @allure.title('Авторизация с неверным паролем возвращает ошибку 404')
+    def test_login_courier_with_wrong_password(self, courier_methods, existing_courier):
+        with allure.step('Авторизоваться с неверным паролем'):
+            courier_data, status_code = courier_methods.get_courier(
+                {"login": existing_courier["login"], "password": "wrong_password"})
         with allure.step("Проверить статус-код 404 и сообщение об ошибке"):
             assert (status_code == 404 and courier_data.get(
                 "message") == "Учетная запись не найдена")

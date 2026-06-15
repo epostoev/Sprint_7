@@ -15,17 +15,14 @@ class CourierMethods:
         if params is None:
             with allure.step('Создать валидные данные для курьера'):
                 params = generate_courier_data()
-                print(params)
         with allure.step('Отправить POST-запрос на создание курьера'):
             response = requests.post(
                 f"{self.url}",
                 data=params
             )
         try:
-            print(f"\n{response.json()}")
             return response.json(), response.status_code, params
         except json.decoder.JSONDecodeError:
-            print(f"\n{response.text}")
             return response.text, response.status_code
 
     @allure.step("Авторизация курьера")
@@ -37,10 +34,8 @@ class CourierMethods:
             timeout=15
         )
         try:
-            print(f"\n{response.json()}")
             return response.json(), response.status_code
         except json.decoder.JSONDecodeError:
-            print(f"\n{response.text}")
             return response.text, response.status_code
 
     @allure.step("Удаление курьера")
@@ -50,8 +45,6 @@ class CourierMethods:
             # headers=self.headers
         )
         try:
-            print(f"\nDEL = {response.json()}")
             return response.json(), response.status_code
         except json.decoder.JSONDecodeError:
-            print(f"\n{response.text}")
             return response.text, response.status_code
